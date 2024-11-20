@@ -9,6 +9,8 @@
 #include "apple.h"
 #include "snake.h"
 
+
+
 class CustomGameScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -21,12 +23,15 @@ public:
     QList<QPointF>& getAllPosesList();//геттер для листа всех позиций
     void changeApplePos();//смена позиции яблока после съедения
     Snake* getSnake();
+    void setupSartObjPos();
 
 public slots:
 
     void slot_snake_Move();//слот движения змеи
     void slot_apple_eating();//слот поедания яблока
     void slot_game_over();//слот завершения игры
+
+
 
 signals:
 

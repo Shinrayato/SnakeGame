@@ -9,5 +9,10 @@ enum Dir
     right
 };
 
+struct Time
+{
+    int h, m, s;
+};
+
 #endif // PRIMITIVES_H
 

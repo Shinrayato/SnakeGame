@@ -22,6 +22,7 @@ CustomGameScene::CustomGameScene(int width, int height, QObject *parent): QGraph
     m_snake = std::make_unique<Snake>(this->m_all_poses.at(400/2 + 10), this->m_all_poses.at(400/2 + 9));
     //добавление головы на сцену
     this->addItem(m_snake->GetHead());
+    //добавление хвоста на сцену
     this->addItem(&m_snake->GetTail()->getTailList().front());
 
     //соединяем сигнал от головы о поедании яблока с слотом поедания яблока
@@ -78,12 +79,12 @@ QList<QPointF> &CustomGameScene::getAllPosesList()
 
 void CustomGameScene::changeApplePos()
 {
-    srand(time(NULL));
+
     while(true)
     {
         //новая позиция для яблока
         auto i = m_all_poses.begin();
-        i+=(rand() % m_all_poses.size());
+        i+=(rand()% m_all_poses.size());
         m_aplle->setPos(*i);
 
         //проверка позиции на совпадение с головой и всеми элементами хвоста
@@ -110,6 +111,24 @@ Snake* CustomGameScene::getSnake()
     return &*m_snake;
 }
 
+void CustomGameScene::setupSartObjPos()
+{
+
+    //очистка сцены от элементов хвоста
+    for (auto i =  m_snake->GetTail()->getTailList().begin(); i != m_snake->GetTail()->getTailList().end(); ++i)
+    {
+        this->removeItem(&*i);
+    }
+
+    m_snake->GetTail()->getTailList().clear();//удаление хвоста змеи
+
+    //установка объектов яблока и змени в начальное положение
+    m_snake->GetHead()->setPos(m_all_poses.at(400/2 + 10));
+    m_snake->GetTail()->getTailList().emplace_back(m_all_poses.at(400/2 + 9));
+    m_aplle->setPos(this->m_all_poses.at(400/3));
+
+}
+
 void CustomGameScene::slot_snake_Move()
 {
     m_snake->moveSnake(m_aplle->pos());
@@ -130,3 +149,5 @@ void CustomGameScene::slot_game_over()
     //излучение сигнала окончания игры, передача количества очков лейблу с набранными очками
     emit signal_game_over(m_score);
 }
+
+
