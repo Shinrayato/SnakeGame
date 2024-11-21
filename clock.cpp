@@ -22,3 +22,8 @@ void Clock::slot_set_new_time()
 {
     emit signal_set_new_time(++m_second_count);
 }
+
+void Clock::slot_timer_stop()
+{
+    m_timer.stop();
+}

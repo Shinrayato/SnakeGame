@@ -41,6 +41,8 @@ GameProcessWindow::GameProcessWindow(QWidget *parent): QWidget{parent}
     connect(m_custom_scene, &CustomGameScene::signal_stop_snake, snake_speed_timer, &QTimer::stop);
     //соединяем сигнал подсчета времени с слотом установки времени в лайбл
     connect(&m_clock, &Clock::signal_set_new_time, this, &GameProcessWindow::slot_set_new_time);
+    //соединяем сигнал остановки подсчета времени с слотом остановки времени
+    connect(m_custom_scene, &CustomGameScene::signal_stop_timer, &m_clock, &Clock::slot_timer_stop);
 
     m_time.h = 0;
     m_time.m = 0;
@@ -62,6 +64,7 @@ void GameProcessWindow::slot_game_start()//слот старта игры
 {
     this->show();//отображение виджета игрового процесса в главном окне
     snake_speed_timer->start(300);//запуск таймера скорости
+    //установка фокуса
     m_custom_scene->getSnake()->GetHead()->grabKeyboard();
     m_graphicsViev->setFocus();
     m_clock.startClockTimer();//запуск таймера часов
@@ -97,6 +100,11 @@ void GameProcessWindow::slot_set_new_time(const int time_now_in_seconds)
 
 void GameProcessWindow::slot_game_restart()//слот рестарта игры
 {
+    this->show();//вызываем отображение окна в главном виджете
+    //установка фокуса
+    m_custom_scene->getSnake()->GetHead()->grabKeyboard();
+    m_graphicsViev->setFocus();
+
     //обнуление игрового времени
     m_time.h = 0;
     m_time.m = 0;
@@ -104,6 +112,15 @@ void GameProcessWindow::slot_game_restart()//слот рестарта игры
 
     m_clock.updateSecondCount();//обновление счетчиа времени
     m_custom_scene->setupSartObjPos();//обновление позиций
+
+    m_score_label->setText("SCORE " + QString::number(0));//обнуление счетчика очков
+    m_custom_scene->getScore() = 0;
+
+    m_time_label->setText("0 : 0 : 0");//обнуление счетска времени
+
+
+    snake_speed_timer->start();//запуск таймера передвижения змеи
+    m_clock.startClockTimer();//запуск таймера подсчета игрового времени
 
 
 

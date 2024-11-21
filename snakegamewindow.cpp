@@ -37,9 +37,13 @@ SnakeGameWindow::SnakeGameWindow(const QApplication* app, QWidget *parent)
     //соединяем сигнал от кнопки завершения игры из меню конца игры с методом закрытия приложения
     connect(m_game_over_menu->getExitButton(), &MyButton::clicked, app, &QApplication::closeAllWindows);
     //соединяем сигнал от сцены о завершении игры с методом закрытия окна
-    connect(m_game_process_window->getCustomScene(), &CustomGameScene::signal_game_over, m_game_process_window, &GameProcessWindow::hide);
+    //connect(m_game_process_window->getCustomScene(), &CustomGameScene::signal_game_over, m_game_process_window, &GameProcessWindow::hide);
     //соединяем сигнал от сцены о завершении игры с слотом вывода окна завершения игры
     connect(m_game_process_window->getCustomScene(), &CustomGameScene::signal_game_over, m_game_over_menu, &GameOverMenu::slot_game_over_menu);
+    //соединяем сигнал от кнопки рестарта с сокрытия окна
+    connect(m_game_over_menu->getRestartButton(), &MyButton::clicked, m_game_over_menu, &GameOverMenu::hide);
+    //соединяем сигнал от кнопки рестарта с слотом рестарта игры
+    connect(m_game_over_menu->getRestartButton(), &MyButton::clicked, m_game_process_window, &GameProcessWindow::slot_game_restart);
 }
 
 SnakeGameWindow::~SnakeGameWindow()

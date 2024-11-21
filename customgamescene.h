@@ -24,6 +24,7 @@ public:
     void changeApplePos();//смена позиции яблока после съедения
     Snake* getSnake();
     void setupSartObjPos();
+    int& getScore();
 
 public slots:
 
@@ -38,6 +39,7 @@ signals:
     void signal_score_refresh(int score_count);//сигнал обновления счетчика очков
     void signal_game_over(int score_count);//сигнал завершения игры
     void signal_stop_snake();//сигнал остановки змеи
+    void signal_stop_timer();//сигнал остановки таймера подсчета времени
 
 private:
 

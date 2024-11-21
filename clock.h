@@ -14,6 +14,7 @@ public:
 
     Clock();
     void startClockTimer();//метод запуска часов
+
     void updateSecondCount();
 
 signals:
@@ -21,9 +22,10 @@ signals:
     void signal_set_new_time(const int time);//сигнал передающий время
 
 
-private slots:
+public slots:
 
     void slot_set_new_time();//слот для подсчета времени по таймеру
+    void slot_timer_stop();
 
 private:
 

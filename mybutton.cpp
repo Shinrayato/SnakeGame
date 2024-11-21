@@ -5,8 +5,8 @@
 MyButton::MyButton(const QString &text, QWidget *parent): QPushButton(text, parent)
 {
     this->setStyleSheet("font-size:  40px; background-color: rgb( 34, 139, 34); border: 3px solid black; border-radius: 10px;");
-    //this->setStyleSheet(" background-color: #3cbaa2");
     this->setMouseTracking(true);
+
 }
 
 MyButton::~MyButton()

@@ -125,8 +125,14 @@ void CustomGameScene::setupSartObjPos()
     //установка объектов яблока и змени в начальное положение
     m_snake->GetHead()->setPos(m_all_poses.at(400/2 + 10));
     m_snake->GetTail()->getTailList().emplace_back(m_all_poses.at(400/2 + 9));
+    this->addItem(m_snake->GetTail()->getEndofTail());
     m_aplle->setPos(this->m_all_poses.at(400/3));
 
+}
+
+int& CustomGameScene::getScore()
+{
+    return m_score;
 }
 
 void CustomGameScene::slot_snake_Move()
@@ -148,6 +154,8 @@ void CustomGameScene::slot_game_over()
     emit signal_stop_snake();
     //излучение сигнала окончания игры, передача количества очков лейблу с набранными очками
     emit signal_game_over(m_score);
+    //излучение сигнала остановки таймера подсчета времени
+    emit signal_stop_timer();
 }
 
 

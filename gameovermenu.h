@@ -15,6 +15,7 @@ class GameOverMenu : public QWidget
 public:
     explicit GameOverMenu(QWidget *parent = nullptr);
     MyButton* getExitButton();
+    MyButton* getRestartButton();
 
 signals:
 
@@ -24,12 +25,16 @@ public slots:
 
 private:
 
-    MyButton *m_retry_button;
-    MyButton *m_show_records_button;
-    MyButton *m_exit_game_button;
-    QLabel   *m_game_over_label;
-    QLabel   *m_total_score_label;
+    MyButton *m_retry_button;//кнопка рестарта игры
+    MyButton *m_show_records_button;//кнопка показа рекордов игрока
+    MyButton *m_exit_game_button;//кнопка выхода из игры
+    QLabel   *m_game_over_label;//лейбл для отображения надписи о конце игры
+    QLabel   *m_total_score_label;//лейбл для вывода очков на экран
+    QLabel   *m_time_label;//лейбл для отображения итогового времени игры
     QVBoxLayout *m_layout;
+    QHBoxLayout *m_layout_for_game_stats;
+    QHBoxLayout *m_hlayout_for_buttons;
+    QVBoxLayout *m_vlayout_for_buttons;
 
 };
 
