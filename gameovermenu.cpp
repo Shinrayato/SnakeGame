@@ -64,10 +64,25 @@ MyButton *GameOverMenu::getRestartButton()
     return m_retry_button;
 }
 
-void GameOverMenu::slot_game_over_menu(int score_count)
+void GameOverMenu::slot_game_over_menu(const GameStatistics& accepted_statistics)
 {
-    std::string score_string = "Total Score: " + std::to_string(score_count);
-    m_total_score_label->setText(score_string.c_str());
+    std::string score_string = "Total Score: " + std::to_string(accepted_statistics.score);
+
+    int seconds = accepted_statistics.time;
+
+    std::string time;
+
+    if(seconds >= 3600)
+    {
+        time += std::to_string(seconds / 3600) + " :";
+        seconds %= 3600;
+    }
+    if(seconds >= 60)
+    {
+        time += std::to_string(seconds / 60)  + " :";
+        time += std::to_string(seconds %= 60);
+    }
+
     this->show();
 
 }

@@ -43,10 +43,12 @@ GameProcessWindow::GameProcessWindow(QWidget *parent): QWidget{parent}
     connect(&m_clock, &Clock::signal_set_new_time, this, &GameProcessWindow::slot_set_new_time);
     //соединяем сигнал остановки подсчета времени с слотом остановки времени
     connect(m_custom_scene, &CustomGameScene::signal_stop_timer, &m_clock, &Clock::slot_timer_stop);
+    //соединяем сигнал о завершении игры от сцены с сигралом с слотом отправки ировой статистики
+    connect(m_custom_scene, &CustomGameScene::signal_game_over, this, &GameProcessWindow::slot_send_game_statistics);
 
-    m_time.h = 0;
-    m_time.m = 0;
-    m_time.s = 0;
+    m_statistics.time = 0;
+
+    m_statistics.score = 0;
 
 }
 
@@ -72,28 +74,30 @@ void GameProcessWindow::slot_game_start()//слот старта игры
 
 void GameProcessWindow::slot_set_score(int score_count)//слот обновления счетчика очков
 {
+    m_statistics.score += score_count;
     //обновление счетчика очков
-    std::string value = "SCORE " + std::to_string(score_count);
+    std::string value = "SCORE " + std::to_string(m_statistics.score);
     m_score_label->setText(value.c_str());
 }
 
 void GameProcessWindow::slot_set_new_time(const int time_now_in_seconds)
 {
+    m_statistics.time = time_now_in_seconds;//обновляем статистику времени
+
     int seconds = time_now_in_seconds;
+
+    std::string time;
 
     if(seconds >= 3600)
     {
-        m_time.h = seconds / 3600;
+        time += std::to_string(seconds / 3600) + " :";
         seconds %= 3600;
     }
-    if(seconds >= 60)
+    if(time_now_in_seconds >= 60)
     {
-        m_time.m = seconds / 60;
-        seconds %= 60;
+        time += std::to_string(seconds / 60)  + " :";
+        time += std::to_string(seconds %= 60);
     }
-    m_time.s = seconds;
-
-    std::string time = std::to_string(m_time.h) + " : " + std::to_string(m_time.m) + " : " + std::to_string(m_time.s);
 
     this->m_time_label->setText(time.c_str());
 }
@@ -106,9 +110,7 @@ void GameProcessWindow::slot_game_restart()//слот рестарта игры
     m_graphicsViev->setFocus();
 
     //обнуление игрового времени
-    m_time.h = 0;
-    m_time.m = 0;
-    m_time.s = 0;
+    m_statistics.time = 0;
 
     m_clock.updateSecondCount();//обновление счетчиа времени
     m_custom_scene->setupSartObjPos();//обновление позиций
@@ -124,4 +126,9 @@ void GameProcessWindow::slot_game_restart()//слот рестарта игры
 
 
 
+}
+
+void GameProcessWindow::slot_send_game_statistics()
+{
+    emit signal_send_game_statistics_over(m_statistics);
 }

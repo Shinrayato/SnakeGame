@@ -8,6 +8,7 @@
 
 //my includes
 #include "mybutton.h"
+#include "primitives.h"
 
 class GameOverMenu : public QWidget
 {
@@ -21,7 +22,7 @@ signals:
 
 public slots:
 
-    void slot_game_over_menu(int score_count);
+    void slot_game_over_menu(const GameStatistics& accepted_statistics);
 
 private:
 

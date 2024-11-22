@@ -4,8 +4,6 @@
 
 CustomGameScene::CustomGameScene(int width, int height, QObject *parent): QGraphicsScene{parent}
 {
-    //начальное колчество очков
-    m_score = 0;
     //создание рамки сцены
     this->printScene(width,height);
     //зарисовка решетки
@@ -146,14 +144,14 @@ void CustomGameScene::slot_apple_eating()
     this->addItem(this->m_snake->GetTail()->getEndofTail());
     changeApplePos();
     //излучение сигнала обновления очков
-    emit signal_score_refresh(m_score+=1);
+    emit signal_score_refresh(1);
 }
 
 void CustomGameScene::slot_game_over()
 {
     emit signal_stop_snake();
     //излучение сигнала окончания игры, передача количества очков лейблу с набранными очками
-    emit signal_game_over(m_score);
+    emit signal_game_over();
     //излучение сигнала остановки таймера подсчета времени
     emit signal_stop_timer();
 }

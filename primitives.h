@@ -9,10 +9,14 @@ enum Dir
     right
 };
 
-struct Time
+
+
+struct GameStatistics
 {
-    int h, m, s;
+    int score;
+    int time;
 };
+
 
 #endif // PRIMITIVES_H
 

@@ -10,6 +10,7 @@
 #include "customgamescene.h"
 #include "clock.h"
 
+
 class GameProcessWindow : public QWidget
 {
     Q_OBJECT
@@ -24,9 +25,12 @@ public slots:
     void slot_set_score(int score_count);//слот обновления счетчика очков
     void slot_set_new_time(const int time_now_in_seconds);//слот для принятия игрового времени
     void slot_game_restart();//слот рестарта игры
+    void slot_send_game_statistics();//слот отправки игровой статистики
 
 
 signals:
+
+    void signal_send_game_statistics_over(const GameStatistics& send_statistics);//сигнал для отправки статистики
 
 private:
 
@@ -37,8 +41,9 @@ private:
     CustomGameScene* m_custom_scene;//сцена игрового процесса
     QTimer *snake_speed_timer;//таймер по сигналу которого будет двигаться змея
     QGraphicsView* m_graphicsViev;//графический вид игрового процесса
-    Time m_time;//структура для подсчета времени и выввода ее на лейбл времени
     Clock m_clock;
+    GameStatistics m_statistics;
+
 
 
 };
