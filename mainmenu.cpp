@@ -27,11 +27,10 @@ MainMenu::MainMenu(QWidget *parent): QWidget(parent)
 
     this->setLayout(m_vLayout);
 
-    //установка цвета фона виджета
-    QPalette pal = QPalette();
-    pal.setColor(QPalette::Window, Qt::darkGray);
-    this->setAutoFillBackground((true));
-    this->setPalette(pal);
+
+    //соединяем сингнал клика по кнопке рекордов с слотом вызова меню рекордов
+    connect(m_showRecord_button, &MyButton::clicked, this, &MainMenu::slot_call_record_menu);
+
 
 }
 
@@ -45,7 +44,18 @@ MyButton *MainMenu::getStartButton()
     return m_gameStart_button;
 }
 
+MyButton *MainMenu::getRecordButton()
+{
+    return m_showRecord_button;
+}
+
 MyButton *MainMenu::getExitButton()
 {
     return m_exitGame_button;
+}
+
+void MainMenu::slot_call_record_menu()
+{
+    this->hide();//скрываем окно
+    emit signal_call_record_menu(CalledFrom::MainMenu);//излучаем сигнал для таблицы рекордов
 }

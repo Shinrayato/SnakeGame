@@ -46,12 +46,8 @@ GameOverMenu::GameOverMenu(QWidget *parent): QWidget(parent)
 
     m_layout->addLayout(m_hlayout_for_buttons);
 
-
-
-    QPalette pal = QPalette();
-    pal.setColor(QPalette::Window, Qt::darkGray);
-    this->setAutoFillBackground((true));
-    this->setPalette(pal);
+    //соединяем сингнал клика по кнопке рекордов с слотом вызова меню рекордов
+    connect(m_show_records_button, &MyButton::clicked, this, &GameOverMenu::slot_call_record_menu);
 }
 
 MyButton *GameOverMenu::getExitButton()
@@ -64,24 +60,45 @@ MyButton *GameOverMenu::getRestartButton()
     return m_retry_button;
 }
 
+void GameOverMenu::slot_call_record_menu()
+{
+    this->hide();//скрываем это меню
+    emit signal_call_record_menu(CalledFrom::GameOverMenu);//излучаем сигнал для таблицы рекордов
+}
+
 void GameOverMenu::slot_game_over_menu(const GameStatistics& accepted_statistics)
 {
     std::string score_string = "Total Score: " + std::to_string(accepted_statistics.score);
 
+    m_total_score_label->setText(score_string.c_str());
+
     int seconds = accepted_statistics.time;
+
+    int time_in_h = 0;
+    int time_in_m = 0;
+    int time_in_s = 0;
 
     std::string time;
 
     if(seconds >= 3600)
     {
-        time += std::to_string(seconds / 3600) + " :";
+        time_in_h = seconds/3600;
         seconds %= 3600;
     }
     if(seconds >= 60)
     {
-        time += std::to_string(seconds / 60)  + " :";
-        time += std::to_string(seconds %= 60);
+        time_in_m = seconds/60;
+        seconds %= 60;
     }
+    if(seconds < 60)
+    {
+        time_in_s = seconds;
+    }
+
+    time = std::to_string(time_in_h) + " : " + std::to_string(time_in_m) + " : " + std::to_string(time_in_s);
+
+    m_time_label->setText(time.c_str());
+
 
     this->show();
 

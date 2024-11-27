@@ -19,9 +19,11 @@ public:
     MyButton* getRestartButton();
 
 signals:
+     void signal_call_record_menu(CalledFrom this_window);
 
 public slots:
 
+    void slot_call_record_menu();
     void slot_game_over_menu(const GameStatistics& accepted_statistics);
 
 private:

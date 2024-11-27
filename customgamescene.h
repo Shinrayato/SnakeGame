@@ -24,7 +24,6 @@ public:
     void changeApplePos();//смена позиции яблока после съедения
     Snake* getSnake();
     void setupSartObjPos();
-    int& getScore();
 
 public slots:
 
@@ -47,7 +46,6 @@ private:
     int side_of_rect_pos;//сторона одной клеточки
     Apple *m_aplle;//яблоко
     std::unique_ptr<Snake> m_snake;//змея
-    int m_score;//очки набранные игроком за эту игру
 
 };
 

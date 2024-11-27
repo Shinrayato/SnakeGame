@@ -11,6 +11,8 @@
 #include "mainmenu.h"
 #include "gameprocesswindow.h"
 #include "gameovermenu.h"
+#include "recordswindow.h"
+#include "fstream"
 
 
 
@@ -25,15 +27,27 @@ class SnakeGameWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    SnakeGameWindow(const QApplication* app, QWidget *parent = nullptr);
+    SnakeGameWindow(QApplication* app, QWidget *parent = nullptr);
     ~SnakeGameWindow();
+
+signals:
+
+    void signal_update_records(const std::list<GameStatistics>& m_records_list);
+
+public slots:
+    void slot_update_records(const GameStatistics& send_statistics);
+    void slot_exit_game();
 
 
 private:
     Ui::SnakeGameWindow *ui;
-    MainMenu *m_main_menu;//указатель на виджет главного меню игры
+    class MainMenu *m_main_menu;//указатель на виджет главного меню игры
     GameProcessWindow * m_game_process_window;//указатель виджет игрового процесса
-    GameOverMenu *m_game_over_menu;
+    class GameOverMenu *m_game_over_menu;
+    RecordsWindow *m_records_window;
+    std::list<GameStatistics> m_records_list;
+
+    QApplication* m_app;
 
     QVBoxLayout* vlaout;//компоновка для установки в всех игровых виджетов
 

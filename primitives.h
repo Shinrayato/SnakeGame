@@ -15,6 +15,13 @@ struct GameStatistics
 {
     int score;
     int time;
+
+};
+
+enum CalledFrom
+{
+    MainMenu,
+    GameOverMenu
 };
 
 

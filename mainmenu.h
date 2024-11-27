@@ -9,6 +9,7 @@
 
 //my includes
 #include "mybutton.h"
+#include "primitives.h"
 
 
 
@@ -20,7 +21,16 @@ public:
     MainMenu(QWidget *parent = nullptr);
     ~MainMenu();
     MyButton* getStartButton();
+    MyButton* getRecordButton();
     MyButton* getExitButton();
+
+public slots:
+
+    void slot_call_record_menu();
+signals:
+
+    void signal_call_record_menu(CalledFrom this_window);
+
 
 
 private:

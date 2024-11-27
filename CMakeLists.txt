@@ -35,6 +35,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         tail.h tail.cpp
         gameovermenu.h gameovermenu.cpp
         clock.h clock.cpp
+        recordswindow.h recordswindow.cpp
 
 
     )

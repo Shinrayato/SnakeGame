@@ -50,8 +50,8 @@ void CustomGameScene::fillAllPosesList()//заполнение контейнр�
 
 void CustomGameScene::printScene(int width, int height)//отрисовка рамки и заднего фона сцены
 {
-    //создание рамки сцены
-    this->addRect(0,0,width, height, QPen(Qt::black), QBrush(Qt::gray));
+
+    this->setBackgroundBrush(QBrush(Qt::gray));
     this->addLine(0,0, width,0, QPen(Qt::black));
     this->addLine(0,height, width,height, QPen(Qt::black));
     this->addLine(0,0, 0,height,QPen(Qt::black));
@@ -128,10 +128,7 @@ void CustomGameScene::setupSartObjPos()
 
 }
 
-int& CustomGameScene::getScore()
-{
-    return m_score;
-}
+
 
 void CustomGameScene::slot_snake_Move()
 {

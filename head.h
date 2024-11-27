@@ -13,7 +13,7 @@ class Head : public QObject, public QGraphicsItem
 {
     Q_OBJECT
 public:
-    explicit Head(const QPointF& head_pos,QObject *parent = nullptr);
+    explicit Head(const QPointF& head_pos, QObject *parent = nullptr);
     ~Head();
     const QPointF& Move();
     void setPreviousPos(const QPointF &previous_pos);

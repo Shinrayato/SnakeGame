@@ -15,6 +15,9 @@ GameProcessWindow::GameProcessWindow(QWidget *parent): QWidget{parent}
     m_custom_scene = new CustomGameScene(m_graphicsViev->width()-100, m_graphicsViev->height()-100, m_graphicsViev);
 
     m_graphicsViev->setRenderHint(QPainter::Antialiasing);//добавлено сглаживание
+    m_graphicsViev->setBackgroundBrush(QBrush(Qt::darkGray));
+
+
 
     this->setLayout(m_vLayout);//установка компановки
     m_score_label->setText("SCORE " + QString::number(0));//текст лейбла с очками
@@ -47,8 +50,8 @@ GameProcessWindow::GameProcessWindow(QWidget *parent): QWidget{parent}
     connect(m_custom_scene, &CustomGameScene::signal_game_over, this, &GameProcessWindow::slot_send_game_statistics);
 
     m_statistics.time = 0;
-
     m_statistics.score = 0;
+
 
 }
 
@@ -86,18 +89,28 @@ void GameProcessWindow::slot_set_new_time(const int time_now_in_seconds)
 
     int seconds = time_now_in_seconds;
 
+    int time_in_h = 0;
+    int time_in_m = 0;
+    int time_in_s = 0;
+
     std::string time;
 
     if(seconds >= 3600)
     {
-        time += std::to_string(seconds / 3600) + " :";
+        time_in_h = seconds/3600;
         seconds %= 3600;
     }
-    if(time_now_in_seconds >= 60)
+    if(seconds >= 60)
     {
-        time += std::to_string(seconds / 60)  + " :";
-        time += std::to_string(seconds %= 60);
+        time_in_m = seconds/60;
+        seconds %= 60;
     }
+    if(seconds < 60)
+    {
+        time_in_s = seconds;
+    }
+
+    time = std::to_string(time_in_h) + " : " + std::to_string(time_in_m) + " : " + std::to_string(time_in_s);
 
     this->m_time_label->setText(time.c_str());
 }
@@ -109,14 +122,14 @@ void GameProcessWindow::slot_game_restart()//слот рестарта игры
     m_custom_scene->getSnake()->GetHead()->grabKeyboard();
     m_graphicsViev->setFocus();
 
-    //обнуление игрового времени
+    //обнуление игрового времени и очков
     m_statistics.time = 0;
+    m_statistics.score = 0;
 
     m_clock.updateSecondCount();//обновление счетчиа времени
     m_custom_scene->setupSartObjPos();//обновление позиций
 
     m_score_label->setText("SCORE " + QString::number(0));//обнуление счетчика очков
-    m_custom_scene->getScore() = 0;
 
     m_time_label->setText("0 : 0 : 0");//обнуление счетска времени
 
